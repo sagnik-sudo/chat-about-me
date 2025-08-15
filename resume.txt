@@ -1,0 +1,71 @@
+[Chunk 1: Personal Info]
+Name: Sagnik Das
+Adresse: Huldstraße 24, 90461 Nürnberg, Deutschland
+Telefon: +49 157 50329540
+E-Mail: sagnik.das.de@icloud.com
+LinkedIn: linkedin.com/in/sagnik-das
+GitHub: github.com/sagnik-sudo
+
+[Chunk 2: Berufliches Profil]
+Derzeit Masterstudent der KI & Robotik an der Technischen Universität Nürnberg mit Schwerpunkt auf Computer Vision und Deep Learning.
+Über sechs Jahre Berufserfahrung als Dateningenieur auf Cloud-Plattformen, spezialisiert auf skalierbare ETL-Pipelines und datengestützte Analysen.
+Technisch vielseitig, zielorientiert, sucht Werkstudentenstelle zur Einbringung von Teamarbeit- und Problemlösungskompetenz.
+
+[Chunk 3: Berufserfahrung — Infosys]
+Firma: Infosys Limited, Pune, Indien
+Position: Senior Associate Consultant
+Zeitraum: Mai 2022 – September 2024
+Leistungen:
+- Rückverfolgbarkeit um 30 % gesteigert durch Solidatus-basierte Datenherkunftsmodelle.
+- Automatisierte Reportinglösungen mit BigQuery und Looker entwickelt.
+- SAP ECC/S4-Daten in BigQuery integriert; kundenindividuelle Materialized Views erstellt, Verarbeitungszeit um 25 % reduziert.
+
+[Chunk 4: Berufserfahrung — BUDDI AI]
+Firma: BUDDI AI, Chennai, Indien
+Position: Senior Software Engineer
+Zeitraum: Juni 2021 – Mai 2022
+Leistungen:
+- Automatisierung medizinischer Datei-Verarbeitung (PDF, PNG, HL7) mit Scala & Spark — 40 % weniger manueller Aufwand via ETL-Framework mit MinIO & PostgreSQL.
+- Zentrale FastAPI-Schnittstelle für transformierte, HIPAA-konforme Daten aus heterogenen Gesundheitsquellen entwickelt.
+
+[Chunk 5: Berufserfahrung — Wipro Technologies]
+Firma: Wipro Technologies, Kolkata, Indien
+Position: Senior Executive (Data Analysis)
+Zeitraum: August 2018 – Juni 2021
+Leistungen:
+- HR-Dashboards für Talentdaten von 1 Mio.+ Mitarbeitenden entwickelt — 40 % manueller Aufwand eingespart.
+- Visualisierung von Matching-Quoten zur Reduktion externer Neueinstellungen und Optimierung des Ressourcenmanagements.
+
+[Chunk 6: Ausbildung — Master]
+Abschluss: M.Sc. Künstliche Intelligenz und Robotik
+Zeitraum: Oktober 2024 – aktuell
+Institution: Technische Universität Nürnberg (UTN), Deutschland
+Schwerpunkte: Computer Vision, Deep Learning, Data Engineering
+Akademische Projekte:
+1. 7-Tage-Lastprognose mit DeepAR auf 4 Monaten AWS Redshift-Daten (AutoGluon) — robuste kurzfristige Vorhersagen.
+2. YOLO-basierte antizipative Fahrradszenenerkennung (TensorFlow) — Prototyp zur automatischen Fern-/Abblendlicht-Umschaltung.
+
+[Chunk 7: Ausbildung — Bachelor]
+Abschluss: B.Tech Elektrotechnik
+Zeitraum: August 2014 – Juli 2018
+Institution: West Bengal University of Technology, Indien
+Schwerpunkte: Elektrische Maschinen, Regelungstechnik, Energieversorgungssysteme, Rechneranwendungen.
+
+[Chunk 8: IT-Kompetenzen]
+Programmiersprachen: Python, SQL, Scala
+Cloud: Google Cloud BigQuery, Cloud SQL, App Engine, Cloud Composer, Kubernetes Engine
+Daten-Pipelines: Kafka, PySpark, DuckDB
+Maschinelles Lernen: PyTorch, pandas, NumPy, Matplotlib, scikit-learn
+Datenanalyse: Superset, Streamlit, Looker, Plotly
+Tools: FastAPI, Linux, Git, Jira, LaTeX
+
+[Chunk 9: Zertifikate]
+- Associate Cloud Engineer (Google Cloud), 2023
+- Cloud Digital Leader (Google Cloud), 2023
+- AI-900: Azure AI Fundamentals, 2023
+- AZ-900: Azure Fundamentals, 2023
+
+[Chunk 10: Sprachen]
+- Englisch: fließend
+- Deutsch: A2 (aktuell im Uni-Sprachkurs)
+- Bengalisch: Muttersprache

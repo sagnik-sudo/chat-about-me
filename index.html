@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ask about Sagnik (DE/EN) — WebLLM</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 16px; }
+    #status { font-size: 14px; color: #666; margin-bottom: 10px; }
+    #chat { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+    .bubble { padding: 12px 14px; border-radius: 12px; background: #f6f6f6; }
+    .me { background: #e8f0ff; align-self: flex-end; }
+    .row { display: flex; gap: 8px; }
+    input { flex: 1; padding: 10px; }
+    button { padding: 10px 14px; }
+    .small { font-size: 12px; color: #777; }
+  </style>
+</head>
+<body>
+  <h1>Ask about Sagnik (Deutsch / English)</h1>
+  <div id="status">Loading…</div>
+
+  <div id="chat"></div>
+  <div class="row">
+    <input id="q" placeholder="Frag auf Deutsch oder Englisch…" />
+    <button id="ask">Ask</button>
+  </div>
+  <p class="small">
+    Runs fully in your browser via WebGPU + WebLLM. If you see a WebGPU warning, update your browser or enable WebGPU.
+  </p>
+
+  <!-- WebLLM via CDN -->
+  <script src="https://unpkg.com/@mlc-ai/web-llm/dist/index.js"></script>
+  <script>
+  (async () => {
+    const status = (t) => document.getElementById('status').textContent = t;
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('q');
+    const btn = document.getElementById('ask');
+
+    function addBubble(text, who="bot") {
+      const div = document.createElement('div');
+      div.className = 'bubble ' + (who === 'me' ? 'me' : 'bot');
+      div.textContent = text;
+      chat.appendChild(div);
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    // 0) WebGPU check
+    if (!navigator.gpu) {
+      status("⚠️ WebGPU not available in this browser. Try latest Chrome/Edge/Safari (desktop).");
+      return;
+    } else {
+      status("Initializing model… first load may take a minute (cached afterwards).");
+    }
+
+    // 1) Load résumé text
+    let resumeText = "";
+    try {
+      const r = await fetch('./resume.txt');
+      resumeText = await r.text();
+    } catch (e) {
+      status("Error: couldn't load resume.txt");
+      console.error(e);
+      return;
+    }
+
+    // 2) Create WebLLM engine with prebuilt Llama 3.1 8B
+    const selectedModel = "Llama-3.1-8B-Instruct-q4f32_1-MLC";
+    let engine;
+    try {
+      engine = await webllm.CreateMLCEngine(selectedModel);
+    } catch (e) {
+      status("Error: failed to initialize WebLLM engine");
+      console.error(e);
+      return;
+    }
+
+    status("Ready.");
+
+    // 3) System prompt: bilingual + grounded to your résumé
+    const SYSTEM = `
+You are a helpful assistant that ONLY answers using the provided résumé context about the person.
+If the user's input is mostly German, respond in German; otherwise respond in English.
+If the answer is not in the résumé, say: "I don't know based on the résumé."
+Be concise and factual; do NOT invent jobs, dates, or skills.
+`;
+
+    // Maintain minimal chat history for coherence
+    const history = [
+      { role: "system", content: SYSTEM.trim() },
+      // We'll append a permanent context message containing the résumé once:
+      { role: "user", content: "Here is the résumé context:\n\n" + resumeText }
+    ];
+
+    async function ask() {
+      const q = input.value.trim();
+      if (!q) return;
+      input.value = "";
+      addBubble(q, "me");
+
+      const messages = history.concat([{ role: "user", content: q }]);
+
+      try {
+        // streaming generation
+        let full = "";
+        await engine.chat.completions.create({
+          stream: true,
+          messages,
+          model: selectedModel,
+          temperature: 0.2
+        }, (evt) => {
+          if (evt.choices) {
+            for (const ch of evt.choices) {
+              const delta = ch.delta?.content || "";
+              if (delta) {
+                full += delta;
+                if (!document._cur) {
+                  document._cur = document.createElement('div');
+                  document._cur.className = 'bubble bot';
+                  chat.appendChild(document._cur);
+                }
+                document._cur.textContent = full;
+                window.scrollTo(0, document.body.scrollHeight);
+              }
+            }
+          }
+        });
+
+        // finalize bubble
+        if (document._cur) {
+          document._cur = null;
+        }
+
+        // Keep short history to save memory:
+        history.push({ role: "user", content: q });
+        history.push({ role: "assistant", content: full.slice(-2000) });
+
+      } catch (e) {
+        console.error(e);
+        addBubble("Error: " + (e?.message || "generation failed"));
+      }
+    }
+
+    btn.onclick = ask;
+    input.onkeydown = (e) => { if (e.key === 'Enter') ask(); };
+  })();
+  </script>
+</body>
+</html>
