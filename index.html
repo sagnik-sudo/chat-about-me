@@ -65,17 +65,19 @@
       return;
     }
 
-    // 2) Create WebLLM engine with prebuilt Llama 3.1 8B
+    // 2) Create WebLLM engine with prebuilt Llama 3.1 8B using WebLLM's official CDN config
     const selectedModel = "Llama-3.1-8B-Instruct-q4f32_1-MLC";
     let engine;
     try {
-      engine = await webllm.CreateMLCEngine(selectedModel);
+      const modelConfig = webllm.prebuiltAppConfig.model_list.find(m => m.model_id === selectedModel);
+      engine = await webllm.CreateMLCEngine(selectedModel, {
+        model_list: [modelConfig]
+      });
     } catch (e) {
       status("Error: failed to initialize WebLLM engine");
       console.error(e);
       return;
     }
-
     status("Ready.");
 
     // 3) System prompt: bilingual + grounded to your résumé
